@@ -2,7 +2,7 @@
     "name": "hexlet/code",
     "type": "project",
     "description": "Task Manager",
-    "keywords": ["laravel", "framework"],
+    "keywords": ["laravel", "task manager"],
     "license": "MIT",
     "require": {
         "php": "^8.1",
