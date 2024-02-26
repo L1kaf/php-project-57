@@ -9,6 +9,10 @@ install:
 validate:
 	composer validate
 
+setup:
+	cp -n .env.example .env || true
+	php artisan key:gen --ansi
+
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 app routes
 
