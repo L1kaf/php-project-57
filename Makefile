@@ -11,7 +11,11 @@ validate:
 
 setup:
 	cp -n .env.example .env || true
-	php artisan key:gen --ansi
+	composer install
+	php artisan key:generate
+	npm install
+	npm ci
+	npm run build
 
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 app routes
@@ -20,7 +24,7 @@ lint-fix:
 	composer exec --verbose phpcbf -- --standard=PSR12 app routes
 
 test:
-	composer exec --verbose phpunit tests
+	php artisan test
 
 test-coverage:
 	XDEBUG_MODE=coverage composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
