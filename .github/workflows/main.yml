@@ -14,6 +14,21 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: login
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: task_manager
+        ports:
+          - 5432:5432
+        options:
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     - uses: actions/checkout@v3
 
@@ -21,9 +36,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
           php-version: '8.1'
-
-    - name: Run Install
-      run: make install
+          extensions: pdo_pgsql, pgsql
 
     - name: Run setup
       run: make setup
