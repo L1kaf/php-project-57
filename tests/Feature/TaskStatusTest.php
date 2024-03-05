@@ -19,9 +19,9 @@ class TaskStatusTest extends TestCase
     public function setUp(): void
     {
         parent::SetUp();
-        $user = User::factory()->create();
-        $taskStatus = TaskStatus::factory()->create();
-        $taskStatusUpdate = TaskStatus::factory()->create();
+        $this->user = User::factory()->create();
+        $this->taskStatus = TaskStatus::factory()->create();
+        $this->taskStatusUpdate = TaskStatus::factory()->create();
     }
 
     public function testIndex(): void
@@ -80,7 +80,7 @@ class TaskStatusTest extends TestCase
             ->delete(route('task_statuses.destroy', ['task_status' => $this->taskStatus]));
 
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('labels', ['id' => $this->taskStatus->id]);
+        $this->assertDatabaseMissing('task_statuses', ['id' => $this->taskStatus->id]);
         $response->assertRedirect(route('task_statuses.index'));
     }
 

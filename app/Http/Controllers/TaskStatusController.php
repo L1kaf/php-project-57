@@ -34,25 +34,20 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validate($request, [
-            'name' => 'required|unique:task_statuses',
-        ]);
+        if (auth()->check()) {
+            $data = $this->validate($request, [
+                'name' => 'required|unique:task_statuses',
+            ]);
 
-        $taskStatus = new TaskStatus();
-        $taskStatus->fill($data);
-        $taskStatus->save();
+            $taskStatus = new TaskStatus();
+            $taskStatus->fill($data);
+            $taskStatus->save();
 
-        flash(__('messages.status.created'))->success();
+            flash(__('messages.status.created'))->success();
 
-        return redirect()->route('task_statuses.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+            return redirect()->route('task_statuses.index');
+        }
+        abort(403, 'This action is unauthorized.');
     }
 
     /**
@@ -72,17 +67,20 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $taskStatus = TaskStatus::findOrFail($id);
+        if (auth()->check()) {
+            $taskStatus = TaskStatus::findOrFail($id);
 
-        $data = $request->validate([
-            'name' => 'required|unique:task_statuses',
-        ]);
+            $data = $request->validate([
+                'name' => 'required|unique:task_statuses',
+            ]);
 
-        $taskStatus->fill($data);
-        $taskStatus->save();
+            $taskStatus->fill($data);
+            $taskStatus->save();
 
-        flash(__('messages.status.update'))->success();
-        return redirect()->route('task_statuses.index');
+            flash(__('messages.status.update'))->success();
+            return redirect()->route('task_statuses.index');
+        }
+        abort(403, 'This action is unauthorized.');
     }
 
     /**
@@ -90,11 +88,15 @@ class TaskStatusController extends Controller
      */
     public function destroy(string $id)
     {
-        $taskStatus = TaskStatus::find($id);
-        if ($taskStatus) {
-            $taskStatus->delete();
-        }
+        if (auth()->check()) {
+            $taskStatus = TaskStatus::find($id);
+            if ($taskStatus) {
+                $taskStatus->delete();
+                flash(__('messages.status.delete'))->success();
+            }
 
-        return redirect()->route('task_statuses.index');
+            return redirect()->route('task_statuses.index');
+        }
+        abort(403, 'This action is unauthorized.');
     }
 }
