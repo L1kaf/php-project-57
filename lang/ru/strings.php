@@ -17,5 +17,9 @@ return [
     'refresh' => 'Обновить',
     'edit' => 'Изменить',
     'delete' => 'Удалить',
-    'are you sure?' => 'Вы уверены?'
+    'are you sure?' => 'Вы уверены?',
+    'tasks' => 'Задачи',
+    'status' => 'Статус',
+    'author' => 'Автор',
+    'performer' => 'Исполнитель',
 ];
