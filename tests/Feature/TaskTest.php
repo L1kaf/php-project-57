@@ -46,7 +46,7 @@ class TaskTest extends TestCase
         ]);
     }
 
-    public function textIndex(): void
+    public function testIndex(): void
     {
         $response = $this->get(route('tasks.index'));
 
@@ -82,7 +82,7 @@ class TaskTest extends TestCase
     {
         $response = $this
             ->actingAs($this->user)
-            ->patch(route('tasks.edit', ['task' => $this->task]));
+            ->get(route('tasks.edit', ['task' => $this->task]));
 
         $response->assertOk();
     }
@@ -102,17 +102,17 @@ class TaskTest extends TestCase
     {
         $response = $this
             ->actingAs($this->user)
-            ->delete(route('tasks.destroy', ['tasks' => $this->task]));
+            ->delete(route('tasks.destroy', ['task' => $this->task]));
 
-        $response->assertSessionHasErrors();
+        $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('tasks', ['id' => $this->task->id]);
         $response->assertRedirect(route('tasks.index'));
     }
 
-    public function testStoreUpdate(): void
+    public function testStoreNotAuth(): void
     {
         $response = $this
-            ->patch(route('tasks.edit', ['task' => $this->task]));
+            ->get(route('tasks.edit', ['task' => $this->task]));
 
         $response->assertStatus(403);
     }
@@ -129,7 +129,7 @@ class TaskTest extends TestCase
     {
         $response = $this
             ->actingAs($this->secondUser)
-            ->delete(route('tasks.destroy', ['tasks' => $this->task]));
+            ->delete(route('tasks.destroy', ['task' => $this->task]));
 
         $response->assertStatus(403);
     }

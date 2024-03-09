@@ -14,7 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::orderBy('id')->get();
         return view('task.index', compact('tasks'));
     }
 
@@ -71,7 +71,13 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $taskStatus = TaskStatus::select('name', 'id')->pluck('name', 'id');
+        $user = User::select('name', 'id')->pluck('name', 'id');
+        if (auth()->check()) {
+            return view('task.edit', compact('task', 'taskStatus', 'user'));
+        }
+        abort(403, 'This action is unauthorized.');
     }
 
     /**
@@ -79,7 +85,23 @@ class TaskController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (auth()->check()) {
+            $task = Task::findOrFail($id);
+            $data = $this->validate($request, [
+                'name' => 'required|unique:task_statuses',
+                'description' => '',
+                'status_id' => 'required',
+                'assigned_to_id' => ''
+            ]);
+
+            $task->fill($data);
+            $task->save();
+
+            flash(__('messages.task.update'))->success();
+
+            return redirect()->route('tasks.index');
+        }
+        abort(403, 'This action is unauthorized.');
     }
 
     /**
@@ -87,6 +109,13 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $task = Task::find($id);
+        if ($task->created_by_id === auth()->id()) { 
+                $task->delete();
+                flash(__('messages.task.delete'))->success();
+
+            return redirect()->route('tasks.index');
+        }
+        abort(403, 'This action is unauthorized.');
     }
 }

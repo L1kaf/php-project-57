@@ -18,20 +18,23 @@
                 <th>{{ __('strings.id') }}</th>
                 <th>{{ __('strings.name') }}</th>
                 <th>{{ __('strings.data create') }}</th>
+                @auth
+                    <th>{{ __('strings.actions') }}</th>
+                @endauth
             </tr>
         </thead>
         <tbody>
-            @foreach($taskStatuses as $taskStatus)
+            @foreach ($taskStatuses as $taskStatus)
                 <tr class="border-b border-dashed text-left">
                     <td>{{ $taskStatus->id }}</td>
                     <td>{{ $taskStatus->name }}</td>
                     <td>{{ $taskStatus->created_at->format('d.m.Y') }}</td>
+                    @auth
                     <td>
-                        @auth
-                            <a href="{{ route('task_statuses.destroy', $taskStatus->id) }}" data-method="delete" data-confirm="{{ __('strings.are you sure?') }}" class="text-red-600 hover:text-red-900">{{ __('strings.delete') }}</a>
-                            <a class="text-blue-600 hover:text-blue-900" href="{{ route('task_statuses.edit', $taskStatus->id) }}">{{ __('strings.edit') }}</a>
-                        @endauth
+                        <a href="{{ route('task_statuses.destroy', $taskStatus->id) }}" data-method="delete" data-confirm="{{ __('strings.are you sure?') }}" class="text-red-600 hover:text-red-900">{{ __('strings.delete') }}</a>
+                        <a class="text-blue-600 hover:text-blue-900" href="{{ route('task_statuses.edit', $taskStatus->id) }}">{{ __('strings.edit') }}</a>  
                     </td>
+                    @endauth
                 </tr>
             @endforeach
         </tbody>

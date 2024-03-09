@@ -21,10 +21,30 @@
                 <th>{{ __('strings.author') }}</th>
                 <th>{{ __('strings.performer') }}</th>
                 <th>{{ __('strings.data create') }}</th>
+                @auth
+                    <th>{{ __('strings.actions') }}</th>
+                @endauth
             </tr>
         </thead>
         <tbody>
-            
+        @foreach ($tasks as $task)
+            <tr>
+                <td>{{ $task->id }}</td>
+                <td>{{ $task->status->name }}</td>
+                <td><a href="{{ route('tasks.show', $task->id) }}" class="text-blue-600 hover:text-blue-900">{{ $task->name }}</a></td>
+                <td>{{ $task->createdByUser->name }}</td>
+                <td>{{ $task->assignedToUser->name ?? '' }}</td>
+                <td>{{ $task->created_at->format('d.m.Y') }}</td>
+                @auth
+                    <td>
+                        @if ($task->created_by_id === Auth::id())
+                            <a href="{{ route('tasks.destroy', $task->id) }}" data-method="delete" data-confirm="{{ __('strings.are you sure?') }}" class="text-red-600 hover:text-red-900">{{ __('strings.delete') }}</a>
+                        @endif
+                        <a class="text-blue-600 hover:text-blue-900" href="{{ route('tasks.edit', $task->id) }}">{{ __('strings.edit') }}</a> 
+                    </td>
+                @endauth
+            </tr> 
+        @endforeach
         </tbody>
     </table>  
 </div>

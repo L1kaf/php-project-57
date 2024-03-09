@@ -26,4 +26,5 @@ return [
     'description' => 'Описание',
     'executor' => 'Исполнитель',
     'view a task' => 'Просмотр задачи',
+    'actions' => 'Действия'
 ];
