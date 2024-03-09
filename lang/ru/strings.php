@@ -22,4 +22,8 @@ return [
     'status' => 'Статус',
     'author' => 'Автор',
     'performer' => 'Исполнитель',
+    'created task' => 'Создать задачу',
+    'description' => 'Описание',
+    'executor' => 'Исполнитель',
+    'view a task' => 'Просмотр задачи',
 ];

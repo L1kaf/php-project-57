@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\TaskStatus;
+use App\Models\User;
 
 class TaskController extends Controller
 {
@@ -21,7 +23,13 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $task = new Task();
+        $taskStatus = TaskStatus::select('name', 'id')->pluck('name', 'id');
+        $user = User::select('name', 'id')->pluck('name', 'id');
+        if (auth()->check()) {
+            return view('task.create', compact('task', 'taskStatus', 'user'));
+        }
+        abort(403, 'This action is unauthorized.');
     }
 
     /**
@@ -29,7 +37,24 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (auth()->check()) {
+            $data = $this->validate($request, [
+                'name' => 'required|unique:task_statuses',
+                'description' => '',
+                'status_id' => 'required',
+                'assigned_to_id' => ''
+            ]);
+
+            $data['created_by_id'] = auth()->user()->id;
+            $task = new Task();
+            $task->fill($data);
+            $task->save();
+
+            flash(__('messages.task.created'))->success();
+
+            return redirect()->route('tasks.index');
+        }
+        abort(403, 'This action is unauthorized.');
     }
 
     /**
@@ -37,7 +62,8 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        return view('task.show', compact('task'));
     }
 
     /**
