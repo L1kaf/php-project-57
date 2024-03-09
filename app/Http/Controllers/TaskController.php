@@ -110,7 +110,7 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
         $task = Task::find($id);
-        if ($task->created_by_id === auth()->id()) { 
+        if ($task->created_by_id === auth()->id()) {
                 $task->delete();
                 flash(__('messages.task.delete'))->success();
 
