@@ -10,7 +10,7 @@ return [
     'login' => 'Вход',
     'registration' => 'Регистрация',
     'tasks' => 'Задачи',
-    'tags' => 'Теги',
+    'tags' => 'Метки',
     'created status' => 'Создать статус',
     'created' => 'Создать',
     'edit status' => 'Изменить статус',
@@ -26,5 +26,7 @@ return [
     'description' => 'Описание',
     'executor' => 'Исполнитель',
     'view a task' => 'Просмотр задачи',
-    'actions' => 'Действия'
+    'actions' => 'Действия',
+    'created tag' => 'Создать метку',
+    'change tag' => 'Изменение метки'
 ];

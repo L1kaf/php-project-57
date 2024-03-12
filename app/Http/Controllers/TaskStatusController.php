@@ -70,7 +70,7 @@ class TaskStatusController extends Controller
             $taskStatus = TaskStatus::findOrFail($id);
 
             $data = $request->validate([
-                'name' => 'required|unique:task_statuses',
+                'name' => 'required|unique:task_statuses,name,' . $taskStatus->id,
             ]);
 
             $taskStatus->fill($data);

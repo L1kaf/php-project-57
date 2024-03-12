@@ -88,7 +88,7 @@ class TaskController extends Controller
         if (auth()->check()) {
             $task = Task::findOrFail($id);
             $data = $this->validate($request, [
-                'name' => 'required|unique:task_statuses',
+                'name' => 'required|unique:task_statuses,name,' . $task->id,
                 'description' => '',
                 'status_id' => 'required',
                 'assigned_to_id' => ''
