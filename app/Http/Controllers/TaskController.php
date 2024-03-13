@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use App\Models\Label;
 
 class TaskController extends Controller
 {
@@ -26,8 +27,9 @@ class TaskController extends Controller
         $task = new Task();
         $taskStatus = TaskStatus::select('name', 'id')->pluck('name', 'id');
         $user = User::select('name', 'id')->pluck('name', 'id');
+        $label = Label::select('name', 'id')->pluck('name', 'id');
         if (auth()->check()) {
-            return view('task.create', compact('task', 'taskStatus', 'user'));
+            return view('task.create', compact('task', 'taskStatus', 'user', 'label'));
         }
         abort(403, 'This action is unauthorized.');
     }
@@ -45,10 +47,12 @@ class TaskController extends Controller
                 'assigned_to_id' => ''
             ]);
 
+            $labels = $request->input('labels', []);
             $data['created_by_id'] = auth()->user()->id;
             $task = new Task();
             $task->fill($data);
             $task->save();
+            $task->labels()->attach($labels);
 
             flash(__('messages.task.created'))->success();
 
@@ -63,7 +67,8 @@ class TaskController extends Controller
     public function show(string $id)
     {
         $task = Task::findOrFail($id);
-        return view('task.show', compact('task'));
+        $labels = $task->labels;
+        return view('task.show', compact('task', 'labels'));
     }
 
     /**
@@ -74,8 +79,9 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $taskStatus = TaskStatus::select('name', 'id')->pluck('name', 'id');
         $user = User::select('name', 'id')->pluck('name', 'id');
+        $label = Label::select('name', 'id')->pluck('name', 'id');
         if (auth()->check()) {
-            return view('task.edit', compact('task', 'taskStatus', 'user'));
+            return view('task.edit', compact('task', 'taskStatus', 'user', 'label'));
         }
         abort(403, 'This action is unauthorized.');
     }
@@ -94,8 +100,11 @@ class TaskController extends Controller
                 'assigned_to_id' => ''
             ]);
 
+            $labels = $request->input('labels', []);
             $task->fill($data);
             $task->save();
+            $task->labels()->detach();
+            $task->labels()->attach($labels);
 
             flash(__('messages.task.update'))->success();
 
@@ -111,8 +120,8 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         if ($task->created_by_id === auth()->id()) {
-                $task->delete();
-                flash(__('messages.task.delete'))->success();
+            $task->delete();
+            flash(__('messages.task.delete'))->success();
 
             return redirect()->route('tasks.index');
         }

@@ -34,3 +34,12 @@
         {{ $message }}
     </div>
 @enderror
+{{ Form::label('labels', __('strings.tags')) }}
+<div class="mt-2">
+    {{ Form::select('labels[]', $label, null, ['class' => 'rounded border-gray-300 w-1/3', 'multiple' => true, 'placeholder' => '']) }}
+</div>
+@error('labels')
+    <div class="text-rose-600">
+        {{ $message }}
+    </div>
+@enderror

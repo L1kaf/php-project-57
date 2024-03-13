@@ -99,12 +99,12 @@ class LabelController extends Controller
     {
         if (auth()->check()) {
             $label = label::find($id);
-            //if ($label->tasks()->exists()) {
-             //   flash(__('messages.tag.error'))->error();
-            //} else {
+            if ($label->tasks()->exists()) {
+                flash(__('messages.tag.error'))->error();
+            } else {
                 $label->delete();
                 flash(__('messages.tag.delete'))->success();
-            //}
+            }
 
             return redirect()->route('labels.index');
         }
