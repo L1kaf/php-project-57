@@ -4,13 +4,35 @@
 <div class="grid col-span-full">
     <h1 class="mb-5 max-w-2xl text-4xl md:text-4xl xl:text-5xl">{{ __('strings.tasks') }}</h1>
 
-    @auth
+    <div class="w-full flex item-center">
         <div>
-            <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                {{ __('strings.created task') }}
-            </a>
+            {{ Form::open(['route' => 'tasks.index', 'method' => 'GET']) }}
+            <div class="flex">
+                <div>
+                    {{ Form::select('filter[status_id]', $taskStatuses, $filter['status_id'] ?? null, ['placeholder' => __('strings.status'), 'class' => 'rounded border-gray-300']) }}
+                </div>
+                <div>
+                    {{ Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null, ['placeholder' => __('strings.author'), 'class' => 'rounded border-gray-300']) }}
+                </div>
+                <div>
+                    {{ Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('strings.status'), 'class' => 'rounded border-gray-300']) }}
+                </div>
+                <div>
+                    {{ Form::submit(__('strings.apply'), ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2']) }}
+                </div>
+            </div>
+            {{ Form::close() }}
         </div>
-    @endauth
+
+        @auth
+            <div class="ml-auto">
+                <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    {{ __('strings.created task') }}
+                </a>
+            </div>
+        @endauth
+
+    </div>
 
     <table class="mt-4">
         <thead class="border-b-2 border-solid border-black text-left">
@@ -46,6 +68,8 @@
             </tr> 
         @endforeach
         </tbody>
-    </table>  
+    </table>
+    
+    {{ $tasks->links() }}
 </div>
 @endsection('content')
