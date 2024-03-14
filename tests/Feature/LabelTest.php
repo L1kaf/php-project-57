@@ -13,17 +13,19 @@ class LabelTest extends TestCase
     use RefreshDatabase;
 
     private User $user;
-    /** @var Label $label */
     private Label $label;
-    /** @var Label $updateLabel */
     private string $updateLabel;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->label = Label::factory()->create();
-        $this->updateLabel = Label::factory()->create();
+        /** @var Label $labelInstance */
+        $labelInstance = Label::factory()->create();
+        $this->label = $labelInstance;
+        /** @var Label $labelUpdateInstance */
+        $labelUpdateInstance = Label::factory()->create();
+        $this->updateLabel = $labelUpdateInstance;
     }
 
     public function testIndex(): void
