@@ -11,7 +11,7 @@ use App\Models\TaskStatus;
 class TaskStatusTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     private User $user;
     private TaskStatus $taskStatus;
     private string $taskStatusUpdate;
@@ -67,7 +67,7 @@ class TaskStatusTest extends TestCase
             ->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), [
                 'name' => $this->taskStatusUpdate
             ]);
-        
+
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('task_statuses', ['name' => $this->taskStatusUpdate]);
         $response->assertRedirect(route('task_statuses.index'));

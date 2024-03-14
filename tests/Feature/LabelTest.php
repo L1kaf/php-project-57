@@ -45,7 +45,7 @@ class LabelTest extends TestCase
             ->post(route('labels.store'), [
                 'name' => $this->label
             ]);
-        
+
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('labels', ['name' => $this->label]);
         $response->assertRedirect(route('labels.index'));
@@ -67,7 +67,7 @@ class LabelTest extends TestCase
             ->patch(route('labels.update', ['label' => $this->label]), [
                 'name' => $this->updateLabel
             ]);
-        
+
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('labels', ['name' => $this->updateLabel]);
         $response->assertRedirect(route('labels.index'));
@@ -100,7 +100,7 @@ class LabelTest extends TestCase
             ->patch(route('labels.update', ['label' => $this->label]), [
                 'name' => $this->updateLabel
             ]);
-        
+
         $response->assertStatus(403);
     }
 

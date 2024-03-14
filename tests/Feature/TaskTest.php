@@ -65,7 +65,7 @@ class TaskTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->post(route('tasks.store'), $this->newTask);
-        
+
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('tasks', $this->newTask);
         $response->assertRedirect(route('tasks.index'));
@@ -121,7 +121,7 @@ class TaskTest extends TestCase
     {
         $response = $this
             ->patch(route('tasks.update', ['task' => $this->task]), $this->taskUpdate);
-        
+
         $response->assertStatus(403);
     }
 
