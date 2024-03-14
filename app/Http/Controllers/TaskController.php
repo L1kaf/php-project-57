@@ -96,7 +96,6 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-         /** @var \Illuminate\Database\Eloquent\Collection|\App\Models\Label[] $labels */
         $labels = $task->labels;
         return view('task.show', compact('task', 'labels'));
     }
