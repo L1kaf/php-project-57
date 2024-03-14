@@ -26,8 +26,8 @@ class TaskTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->secondUser = User::factory()->make();
-        $this->task = Task::factory()->make([
+        $this->secondUser = User::factory()->create();
+        $this->task = Task::factory()->create([
             'created_by_id' => $this->user->id,
         ]);
 

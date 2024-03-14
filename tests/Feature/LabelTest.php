@@ -20,8 +20,10 @@ class LabelTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
+        /** @var Label $label */
         $this->label = Label::factory()->create();
-        $this->updateLabel = Label::factory()->make();
+        /** @var Label $updateLabel */
+        $this->updateLabel = Label::factory()->create();
     }
 
     public function testIndex(): void
