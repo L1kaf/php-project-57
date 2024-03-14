@@ -101,11 +101,10 @@ class LabelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Label $label)
     {
         if (auth()->check()) {
-            $label = label::find($id);
-            if ($label->tasks()->exists() && $label !== null) {
+            if ($label->tasks()->exists()) {
                 flash(__('messages.tag.error'))->error();
             } else {
                 $label->delete();

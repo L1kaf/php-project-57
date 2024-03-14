@@ -94,9 +94,8 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        $task = Task::findOrFail($id);
         $labels = $task->labels;
         return view('task.show', compact('task', 'labels'));
     }
@@ -146,12 +145,11 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        $task = Task::find($id);
-        if ($task->created_by_id === auth()->id() && $task !== null) {
-                $task->delete();
-                flash(__('messages.task.delete'))->success();
+        if ($task->created_by_id === auth()->id()) {
+            $task->delete();
+            flash(__('messages.task.delete'))->success();
 
             return redirect()->route('tasks.index');
         }
