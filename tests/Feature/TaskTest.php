@@ -24,10 +24,10 @@ class TaskTest extends TestCase
      */
     public function setUp(): void
     {
-        parent::SetUp();
+        parent::setUp();
         $this->user = User::factory()->create();
-        $this->secondUser = User::factory()->create();
-        $this->task = Task::factory()->create([
+        $this->secondUser = User::factory()->make();
+        $this->task = Task::factory()->make([
             'created_by_id' => $this->user->id,
         ]);
 

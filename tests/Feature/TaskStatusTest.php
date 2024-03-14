@@ -18,10 +18,10 @@ class TaskStatusTest extends TestCase
 
     public function setUp(): void
     {
-        parent::SetUp();
+        parent::setUp();
         $this->user = User::factory()->create();
-        $this->taskStatus = TaskStatus::factory()->create();
-        $this->taskStatusUpdate = TaskStatus::factory()->create();
+        $this->taskStatus = TaskStatus::factory()->make();
+        $this->taskStatusUpdate = TaskStatus::factory()->make();
     }
 
     public function testIndex(): void

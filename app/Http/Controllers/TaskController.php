@@ -75,7 +75,10 @@ class TaskController extends Controller
             );
 
             $labels = $request->input('labels', []);
-            $data['created_by_id'] = auth()->user()->id;
+            $user = auth()->user();
+            if ($user !== null) {
+                $data['created_by_id'] = $user->id;
+            }
             $task = new Task();
             $task->fill($data);
             $task->save();
@@ -94,7 +97,7 @@ class TaskController extends Controller
     public function show(string $id)
     {
         $task = Task::findOrFail($id);
-        $labels = $task->labels;
+        $labels = $task->labels();
         return view('task.show', compact('task', 'labels'));
     }
 
@@ -146,9 +149,9 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
         $task = Task::find($id);
-        if ($task->created_by_id === auth()->id()) {
-            $task->delete();
-            flash(__('messages.task.delete'))->success();
+        if ($task->created_by_id === auth()->id() && $task !== null) {
+                $task->delete();
+                flash(__('messages.task.delete'))->success();
 
             return redirect()->route('tasks.index');
         }

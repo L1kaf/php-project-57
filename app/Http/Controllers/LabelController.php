@@ -105,7 +105,7 @@ class LabelController extends Controller
     {
         if (auth()->check()) {
             $label = label::find($id);
-            if ($label->tasks()->exists()) {
+            if ($label->tasks()->exists() && $label !== null) {
                 flash(__('messages.tag.error'))->error();
             } else {
                 $label->delete();

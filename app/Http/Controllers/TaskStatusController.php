@@ -95,7 +95,7 @@ class TaskStatusController extends Controller
     {
         if (auth()->check()) {
             $taskStatus = TaskStatus::find($id);
-            if ($taskStatus->tasks()->exists()) {
+            if ($taskStatus->tasks()->exists() && $taskStatus !== null) {
                 flash(__('messages.status.error'))->error();
             } else {
                 $taskStatus->delete();
