@@ -15,7 +15,7 @@
                     {{ Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null, ['placeholder' => __('strings.author'), 'class' => 'rounded border-gray-300']) }}
                 </div>
                 <div>
-                    {{ Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('strings.status'), 'class' => 'rounded border-gray-300']) }}
+                    {{ Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('strings.executor'), 'class' => 'rounded border-gray-300']) }}
                 </div>
                 <div>
                     {{ Form::submit(__('strings.apply'), ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2']) }}
