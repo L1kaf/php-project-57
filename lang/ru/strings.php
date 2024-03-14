@@ -23,6 +23,7 @@ return [
     'author' => 'Автор',
     'performer' => 'Исполнитель',
     'created task' => 'Создать задачу',
+    'edit task' => 'Изменить задачу',
     'description' => 'Описание',
     'executor' => 'Исполнитель',
     'view a task' => 'Просмотр задачи',

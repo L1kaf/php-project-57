@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="grid col-span-full">
-    <h1 class="mb-5 max-w-2xl text-4xl md:text-4xl xl:text-5xl">{{ __('strings.created task') }}</h1>
+    <h1 class="mb-5 max-w-2xl text-4xl md:text-4xl xl:text-5xl">{{ __('strings.edit task') }}</h1>
     {{ Form::model($task, ['route' => ['tasks.update', $task], 'method' => 'PATCH']) }}
         <div class="flex flex-col">
             @include('task.form')       

@@ -4,7 +4,7 @@
 </div>
 @error('name')
     <div class="text-rose-600">
-        {{ str_replace(':attribute', __('validation.attributes.task'), $message) }}
+        {{ $message }}
     </div>
 @enderror
 {{ Form::label('description', __('strings.description')) }}
