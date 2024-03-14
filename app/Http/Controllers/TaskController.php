@@ -61,12 +61,18 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         if (auth()->check()) {
-            $data = $this->validate($request, [
-                'name' => 'required|unique:task_statuses',
+            $data = $this->validate(
+                $request,
+                [
+                'name' => 'required|unique:tasks',
                 'description' => '',
                 'status_id' => 'required',
                 'assigned_to_id' => ''
-            ]);
+                ],
+                [
+                'unique' => __('validation.unique', ['attribute' => 'Задача']),
+                ]
+            );
 
             $labels = $request->input('labels', []);
             $data['created_by_id'] = auth()->user()->id;
@@ -115,7 +121,7 @@ class TaskController extends Controller
         if (auth()->check()) {
             $task = Task::findOrFail($id);
             $data = $this->validate($request, [
-                'name' => 'required|unique:task_statuses,name,' . $task->id,
+                'task' => 'required|unique:tasks,name,' . $task->id,
                 'description' => '',
                 'status_id' => 'required',
                 'assigned_to_id' => ''

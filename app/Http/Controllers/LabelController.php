@@ -34,10 +34,16 @@ class LabelController extends Controller
     public function store(Request $request)
     {
         if (auth()->check()) {
-            $data = $this->validate($request, [
+            $data = $this->validate(
+                $request,
+                [
                 'name' => 'required|unique:labels',
                 'description' => ''
-            ]);
+                ],
+                [
+                'unique' => __('validation.unique', ['attribute' => 'Метка']),
+                ]
+            );
 
             $label = new Label();
             $label->fill($data);
